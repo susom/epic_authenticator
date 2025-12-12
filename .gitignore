@@ -13,3 +13,5 @@ gitInit.sh
 
 # Composer
 /vendor
+
+*.pem
