@@ -9,10 +9,6 @@ require_once ('classes/GoogleSecretManager.php');
 
 class EpicAuthenticator extends \ExternalModules\AbstractExternalModule {
 
-    const EPIC_PRIVATE_KEY = 'epic-private-key';
-
-    const EPIC_PUBLIC_KEY = 'epic-public-key';
-
     const EPIC_CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer';
     private $secretManager;
     public function __construct() {
@@ -47,14 +43,14 @@ class EpicAuthenticator extends \ExternalModules\AbstractExternalModule {
     {
         $clientId = $this->getProjectSetting('epic-client-id');
         $jwksUrl  = $this->getProjectSetting('public-jwks-url');
-        $tokenUrl = $this->getProjectSetting('epic-token-url');
+        $tokenUrl = rtrim($this->getProjectSetting('epic-base-url'), '/') . '/oauth2/token';
 
         if (empty($clientId) || empty($jwksUrl) || empty($tokenUrl)) {
             throw new \Exception('Missing required Epic OAuth configuration (client id, JWKS URL, or token URL).');
         }
 
         // Get private key from Google Secret Manager
-        $privateKey = $this->getSecretManager()->getSecret(self::EPIC_PRIVATE_KEY);
+        $privateKey = $this->getSecretManager()->getSecret($this->getProjectSetting('epic-private-key-secret-name'));
         if (empty($privateKey)) {
             throw new \Exception('Epic private key could not be loaded from Secret Manager.');
         }
@@ -171,7 +167,7 @@ class EpicAuthenticator extends \ExternalModules\AbstractExternalModule {
     public function getEpicPublicJwks(): string
     {
         // Load public key from Google Secret Manager
-        $publicKey = $this->getSecretManager()->getSecret(self::EPIC_PUBLIC_KEY);
+        $publicKey = $this->getSecretManager()->getSecret($this->getProjectSetting('epic-public-key-secret-name'));
         if (empty($publicKey)) {
             throw new \Exception('Epic public key could not be loaded from Secret Manager.');
         }

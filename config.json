@@ -21,20 +21,13 @@
     "enable-every-page-hooks-on-system-pages": false,
     "links": {
         "project": [
-
-            {
-                "name": "TEST: Generate Access Token",
-                "icon": "fas fa-check-circle",
-                "url": "pages/test_request.php",
-                "show-header-and-footer": false
-            }
         ],
         "control-center": [
             {
                 "name": "Generate Epic JWKS",
                 "icon": "fas fa-check-circle",
                 "url": "pages/generate_jwks.php",
-                "show-header-and-footer": false
+                "show-header-and-footer": true
             }
         ]
     },
@@ -51,8 +44,20 @@
             "type": "text"
         },
         {
-            "key": "epic-token-url",
-            "name": "Epic OAuth Token URL:<br>e.g. https://EPIC-AUTH-URL/oauth2/token\n",
+            "key": "epic-private-key-secret-name",
+            "name": "Epic Private key secret name in Google Secret Manager:",
+            "required": true,
+            "type": "text"
+        },
+        {
+            "key": "epic-public-key-secret-name",
+            "name": "Epic Public key secret name in Google Secret Manager:",
+            "required": true,
+            "type": "text"
+        },
+        {
+            "key": "epic-base-url",
+            "name": "Epic OAuth Token URL:<br>e.g. https://EPIC-AUTH-URL/\n",
             "required": true,
             "type": "text"
         },
