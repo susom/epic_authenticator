@@ -50,12 +50,6 @@
             "type": "text"
         },
         {
-            "key": "epic-public-key-secret-name",
-            "name": "Epic Public key secret name in Google Secret Manager:",
-            "required": true,
-            "type": "text"
-        },
-        {
             "key": "epic-base-url",
             "name": "Epic OAuth Token URL:<br>e.g. https://EPIC-AUTH-URL/\n",
             "required": true,

@@ -164,10 +164,10 @@ class EpicAuthenticator extends \ExternalModules\AbstractExternalModule {
      * @return string JWKS JSON
      * @throws \Exception
      */
-    public function getEpicPublicJwks(): string
+    public function getEpicPublicJwks($publicKeySecretName): string
     {
         // Load public key from Google Secret Manager
-        $publicKey = $this->getSecretManager()->getSecret($this->getProjectSetting('epic-public-key-secret-name'));
+        $publicKey = $this->getSecretManager()->getSecret($publicKeySecretName);
         if (empty($publicKey)) {
             throw new \Exception('Epic public key could not be loaded from Secret Manager.');
         }
