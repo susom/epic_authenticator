@@ -13,6 +13,7 @@ This README explains what the module does, how to configure it, and how to use b
 
 - Overview
 - Prerequisites
+- Creating a Public/Private Key Pair
 - Feature A — Generate JWKS (for Epic)
   - How it works
   - Steps to generate and publish JWKS
@@ -45,6 +46,42 @@ By separating key storage, JWKS generation, and token issuance, the module simpl
   - Orchard App client ID
   - OAuth token endpoint (auth URL)
 - A publicly accessible HTTPS URL where Epic can fetch the JWKS.
+
+---
+
+## Creating a Public/Private Key Pair
+
+Before configuring the module, you need to generate an RSA key pair. The private key is used to sign JWTs, and the public key is published in the JWKS for Epic to verify signatures.
+
+### Using OpenSSL
+
+**Step 1: Generate the Private Key**
+
+Create a new private key named `privatekey.pem` using OpenSSL:
+
+```bash
+openssl genrsa -out /path_to_key/privatekey.pem 2048
+```
+
+> **Note:** Make sure the key length is at least 2048 bits.
+
+**Step 2: Export the Public Key**
+
+Export the public key to a base64 encoded X.509 certificate named `publickey509.pem`:
+
+```bash
+openssl req -new -x509 -key /path_to_key/privatekey.pem -out /path_to_key/publickey509.pem -subj '/CN=myapp'
+```
+
+Where `/CN=myapp` is the subject name (for example, the app name) the key pair is for. The subject name does not have a functional impact in this case but it is required for creating an X.509 certificate.
+
+**Step 3: Store the Keys Securely**
+
+Once generated:
+- Store the **private key** (`privatekey.pem`) in Google Secret Manager (or your chosen secrets manager).
+- Store the **public key** (`publickey509.pem`) in Google Secret Manager for JWKS generation.
+
+Never commit private keys to source control.
 
 ---
 

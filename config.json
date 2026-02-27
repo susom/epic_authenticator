@@ -27,7 +27,7 @@
                 "name": "Generate Epic JWKS",
                 "icon": "fas fa-check-circle",
                 "url": "pages/generate_jwks.php",
-                "show-header-and-footer": true
+                "show-header-and-footer": false
             }
         ]
     },
